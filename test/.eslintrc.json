@@ -1,0 +1,6 @@
+{
+  "rules": {
+    "no-promise-executor-return": 0,
+    "no-unused-vars": ["error", { "varsIgnorePattern": "^describe|it|xdescribe|xit|odescribe|oit|before|beforeEach|after|afterEach|eq|deq|throws|fail$" }]
+  }
+}

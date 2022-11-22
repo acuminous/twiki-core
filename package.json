@@ -1,0 +1,59 @@
+{
+  "name": "twiki-core",
+  "version": "0.1.0",
+  "description": "A true BDD library for Node.js",
+  "keywords": [
+    "bdd",
+    "behaviour",
+    "behavior",
+    "driven",
+    "development",
+    "gherkin",
+    "yadda",
+    "cucumber",
+    "behat",
+    "specflow",
+    "jbehave",
+    "alternative",
+    "typescript"
+  ],
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "coverage": "NODE_OPTIONS='--experimental-loader @istanbuljs/esm-loader-hook' nyc --report html --reporter lcov --reporter text-summary npm test",
+    "examples": "node examples/simple && node examples/languages",
+    "test": "zUnit",
+    "lint": "eslint .",
+    "prepare": "husky install"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/acuminous/twiki-core.git"
+  },
+  "author": "Stephen Cresswell",
+  "license": "ISC",
+  "lint-staged": {
+    "**/*.js": "eslint --fix"
+  },
+  "bugs": {
+    "url": "https://github.com/acuminous/twiki-core/issues"
+  },
+  "homepage": "https://github.com/acuminous/twiki-core#readme",
+  "devDependencies": {
+    "@istanbuljs/esm-loader-hook": "^0.2.0",
+    "eslint": "^8.28.0",
+    "eslint-config-airbnb-base": "^15.0.0",
+    "eslint-plugin-import": "^2.26.0",
+    "husky": "^8.0.2",
+    "lint-staged": "^13.0.3",
+    "nyc": "^15.1.0",
+    "zunit": "^4.0.2"
+  },
+  "dependencies": {
+    "debug": "^4.3.4"
+  },
+  "directories": {
+    "lib": "lib",
+    "test": "test"
+  }
+}
