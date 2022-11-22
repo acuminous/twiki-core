@@ -1,6 +1,6 @@
 ## Classes
 
-&lt;pre&gt;
+<pre>
 ┌────────────────────────────────┐
 │ │
 │ Annotation │
@@ -128,4 +128,4 @@
 │constructor({ regexp: RegExp, converter: Converter&lt;T&gt; }) │ │constructor({ converter: Converter[]&lt;T&gt; }) │
 │ │ │ │
 └─────────────────────────────────────────────────────────┘ └─────────────────────────────────────────────────────────┘
-&lt;/pre&gt;
+</pre>
