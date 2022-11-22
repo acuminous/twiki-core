@@ -1,6 +1,9 @@
 import { strictEqual as eq, deepStrictEqual as deq, throws, ok, fail } from 'node:assert';
 import zunit from 'zunit';
-import { Step, Signature } from '../lib/index.js';
+import { Step, Library, Signature, Instructions, Errors } from '../lib/index.js';
+
+const { ExecutableInstruction } = Instructions;
+const { IncompatibleSignatureBug } = Errors;
 
 const { describe, it, xdescribe, xit, odescribe, oit, before, beforeEach, after, afterEach } = zunit;
 
@@ -34,4 +37,36 @@ describe('Signature', () => {
     ok(!signature1.precludes(signature2));
   });
 
+  it('should parse step text when there are no matching groups', () => {
+    const step = new Step({ text: 'Good luck Buck!' });
+    const signature = new Signature({ regexp: /^Good luck Buck!$/ });
+
+    const args = signature.parse(step);
+
+    eq(args.length, 0);
+  });
+
+  it('should parse step text when there are matching groups', () => {
+    const step = new Step({ text: 'Good luck Buck Rogers!' });
+    const signature = new Signature({ regexp: /^Good luck (\w+) (\w+)!$/ });
+
+    const args = signature.parse(step);
+
+    eq(args.length, 2);
+    eq(args[0], 'Buck');
+    eq(args[1], 'Rogers');
+  });
+
+  it('should report a bug if the regular expression does not match the step text', () => {
+    const step = new Step({ text: 'Good luck Buck!', metadata: { source: { uri: 'buck-rogers.feature', lineNumber: 12 } } });
+    const library = new Library({ name: 'Some Library' });
+    const signature = new Signature({ template: 'Good luck ${firstName} ${lastName}!', regexp: /^Good luck (\w+) (\w+)!$/ });
+    const instruction = new ExecutableInstruction({ library, signature });
+
+    throws(() => instruction.signature.parse(step), (err) => {
+      eq(err.code, IncompatibleSignatureBug.code, err.stack);
+      eq(err.message, 'I attempted to parse the step "Good luck Buck!" from buck-rogers.feature:12 using an instruction with an incompatible signature "Good luck ${firstName} ${lastName}!" defined in "Some Library" - Please submit a bug report via https://github.com/acuminous/twiki-core/issues');
+      return true;
+    });
+  });
 });
