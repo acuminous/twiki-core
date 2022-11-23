@@ -62,8 +62,9 @@ describe('Signature', () => {
     const library = new Library({ name: 'Some Library' });
     const signature = new Signature({ template: 'Good luck ${firstName} ${lastName}!', regexp: /^Good luck (\w+) (\w+)!$/ });
     const instruction = new ExecutableInstruction({ library, signature });
+    signature.bind(instruction);
 
-    throws(() => instruction.signature.parse(step), (err) => {
+    throws(() => signature.parse(step), (err) => {
       eq(err.code, IncompatibleSignatureBug.code, err.stack);
       eq(err.message, 'I attempted to parse the step "Good luck Buck!" from buck-rogers.feature:12 using an instruction with an incompatible signature "Good luck ${firstName} ${lastName}!" defined in "Some Library" - Please submit a bug report via https://github.com/acuminous/twiki-core/issues');
       return true;
