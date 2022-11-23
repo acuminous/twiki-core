@@ -3,7 +3,7 @@ import zunit from 'zunit';
 import { Step, Library, Signature, Instructions, Errors } from '../lib/index.js';
 
 const { ExecutableInstruction } = Instructions;
-const { IncompatibleSignatureBug } = Errors;
+const { IncompatibleInstructionBug } = Errors;
 
 const { describe, it, xdescribe, xit, odescribe, oit, before, beforeEach, after, afterEach } = zunit;
 
@@ -65,8 +65,8 @@ describe('Signature', () => {
     signature.bind(instruction);
 
     throws(() => signature.parse(step), (err) => {
-      eq(err.code, IncompatibleSignatureBug.code, err.stack);
-      eq(err.message, 'I attempted to parse the step "Good luck Buck!" from buck-rogers.feature:12 using an instruction with an incompatible signature "Good luck ${firstName} ${lastName}!" defined in "Some Library" - Please submit a bug report via https://github.com/acuminous/twiki-core/issues');
+      eq(err.code, IncompatibleInstructionBug.code, err.stack);
+      eq(err.message, 'I attempted to execute an incompatible instruction "Good luck ${firstName} ${lastName}!" defined in "Some Library" when interpretting the step "Good luck Buck!" at buck-rogers.feature:12 - Please submit a bug report via https://github.com/acuminous/twiki-core/issues');
       return true;
     });
   });
