@@ -63,13 +63,13 @@ describe('Signature', () => {
   });
 
   it('should report a bug if the regular expression does not match the step text', () => {
-    const library = new Library({ name: 'Some Library' });
+    const library = new Library({ name: 'Searcher' });
     const signature = new Signature({ library, template: 'Good luck ${firstName} ${lastName}!', regexp: /^Good luck (\w+) (\w+)!$/ });
     const step = new Step({ text: 'Good luck Buck!', metadata: { source: { uri: 'buck-rogers.feature', lineNumber: 12 } } });
 
     throws(() => signature.parse(step), (err) => {
       eq(err.code, IncompatibleSignatureBug.code, err.stack);
-      eq(err.message, 'I attempted to execute an incompatible instruction "Good luck ${firstName} ${lastName}!" defined in "Some Library" when interpretting the step "Good luck Buck!" at buck-rogers.feature:12 - Please submit a bug report via https://github.com/acuminous/twiki-core/issues');
+      eq(err.message, 'I attempted to execute an incompatible instruction "Good luck ${firstName} ${lastName}!" defined in the "Searcher" library when interpretting the step "Good luck Buck!" at buck-rogers.feature:12 - Please submit a bug report via https://github.com/acuminous/twiki-core/issues');
       return true;
     });
   });

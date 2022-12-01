@@ -1,9 +1,9 @@
 import { strictEqual as eq, deepStrictEqual as deq, throws, ok, fail } from 'node:assert';
 import zunit from 'zunit';
-import { Library, Session, Signature, Step, Instructions, Functions } from '../../lib/index.js';
+import { Library, Session, Signature, Step, Instructions } from '../../lib/index.js';
+import StubAsyncFunction from '../stubs/StubAsyncFunction.js';
 
 const { ExecutableInstruction } = Instructions;
-const { AsyncFunction } = Functions;
 
 const { describe, it, xdescribe, xit, odescribe, oit, before, beforeEach, after, afterEach } = zunit;
 
@@ -40,14 +40,19 @@ describe('ExecutableInstruction', () => {
     eq(fn.args[0], 'Buck');
   });
 
+  it('should wait for the underlying function to yield', async () => {
+    const library = new Library({ name: 'Some Library' });
+    const signature = new Signature({ library, template: 'Good luck Buck!', regexp: /^Good luck Buck!$/ });
+    const fn = new StubAsyncFunction({ delay: 100 });
+    const instruction = new ExecutableInstruction({ signature, fn });
+
+    const session = new Session();
+    const step = new Step({ text: 'Good luck Buck!' });
+
+    const timeBefore = Date.now();
+    await instruction.execute(session, step);
+    const timeAfter = Date.now();
+
+    ok(timeAfter >= timeBefore + 100);
+  });
 });
-
-class StubAsyncFunction extends AsyncFunction {
-
-  constructor() {
-    super({ fn: (session, ...args) => {
-      this.session = session;
-      this.args = args;
-    } });
-  }
-}
