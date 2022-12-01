@@ -9,7 +9,7 @@ describe('Library', () => {
   it('should define an async instruction with a string template', async () => {
     let called = false;
 
-    const library = new Library({ name: 'Some Library' });
+    const library = new Library({ name: 'Searcher' });
     library.async('Good luck Buck!', () => {
       called = true;
     });
@@ -26,7 +26,7 @@ describe('Library', () => {
   it('should define an async instruction with a regexp template', async () => {
     let called = false;
 
-    const library = new Library({ name: 'Some Library' });
+    const library = new Library({ name: 'Searcher' });
     library.async(/^Good luck Buck!$/, () => {
       called = true;
     });
