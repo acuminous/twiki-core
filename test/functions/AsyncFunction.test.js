@@ -15,7 +15,7 @@ describe('AsyncFunction', () => {
     const session = new Session();
 
     const timeBefore = Date.now();
-    await fn.run(session, []);
+    await fn.call(session, []);
     const timeAfter = Date.now();
 
     ok(timeAfter >= timeBefore + 100, 'Did not wait for underlying function to complete');
@@ -32,7 +32,7 @@ describe('AsyncFunction', () => {
     const fn = new AsyncFunction({ fn: underlying });
     const session = new Session();
 
-    await fn.run(session, [1, 2, 3]);
+    await fn.call(session, [1, 2, 3]);
   });
 
 });
