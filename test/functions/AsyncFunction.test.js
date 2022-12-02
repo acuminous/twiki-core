@@ -1,3 +1,4 @@
+import { setTimeout } from 'timers/promises';
 import { strictEqual as eq, deepStrictEqual as deq, throws, ok, fail } from 'node:assert';
 import zunit from 'zunit';
 import { Session, Functions } from '../../lib/index.js';
@@ -9,9 +10,7 @@ const { describe, it, xdescribe, xit, odescribe, oit, before, beforeEach, after,
 describe('AsyncFunction', () => {
 
   it('should wait until the underlying function completes', async () => {
-    const underlying = async () => new Promise((resolve) => setTimeout(resolve, 100));
-
-    const fn = new AsyncFunction({ fn: underlying });
+    const fn = new AsyncFunction({ fn: () => setTimeout(100) });
     const session = new Session();
 
     const timeBefore = Date.now();
